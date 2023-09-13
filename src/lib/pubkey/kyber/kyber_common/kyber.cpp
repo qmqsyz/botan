@@ -60,13 +60,13 @@ KyberMode::Mode kyber_mode_from_string(std::string_view str) {
       return KyberMode::Kyber1024_90s;
    }
    if(str == "Kyber-512-r3") {
-      return KyberMode::Kyber512;
+      return KyberMode::Kyber512_Round3;
    }
    if(str == "Kyber-768-r3") {
-      return KyberMode::Kyber768;
+      return KyberMode::Kyber768_Round3;
    }
    if(str == "Kyber-1024-r3") {
-      return KyberMode::Kyber1024;
+      return KyberMode::Kyber1024_Round3;
    }
 
    throw Invalid_Argument(fmt("'{}' is not a valid Kyber mode name", str));
@@ -92,11 +92,11 @@ std::string KyberMode::to_string() const {
          return "Kyber-768-90s-r3";
       case Kyber1024_90s:
          return "Kyber-1024-90s-r3";
-      case Kyber512:
+      case Kyber512_Round3:
          return "Kyber-512-r3";
-      case Kyber768:
+      case Kyber768_Round3:
          return "Kyber-768-r3";
-      case Kyber1024:
+      case Kyber1024_Round3:
          return "Kyber-1024-r3";
    }
 
@@ -140,26 +140,29 @@ class KyberConstants {
    public:
       KyberConstants(const KyberMode mode) : m_mode(mode) {
          switch(mode.mode()) {
-            case KyberMode::Kyber512:
+            case KyberMode::Kyber512_Round3:
             case KyberMode::Kyber512_90s:
                m_nist_strength = 128;
                m_k = 2;
                m_eta1 = 3;
                break;
 
-            case KyberMode::Kyber768:
+            case KyberMode::Kyber768_Round3:
             case KyberMode::Kyber768_90s:
                m_nist_strength = 192;
                m_k = 3;
                m_eta1 = 2;
                break;
 
-            case KyberMode::Kyber1024:
+            case KyberMode::Kyber1024_Round3:
             case KyberMode::Kyber1024_90s:
                m_nist_strength = 256;
                m_k = 4;
                m_eta1 = 2;
                break;
+
+            default:
+               BOTAN_ASSERT_UNREACHABLE();
          }
 
 #ifdef BOTAN_HAS_KYBER_90S

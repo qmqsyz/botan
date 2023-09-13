@@ -29,7 +29,19 @@ namespace Botan {
 
 class BOTAN_PUBLIC_API(3, 0) KyberMode {
    public:
-      enum Mode { Kyber512, Kyber512_90s, Kyber768, Kyber768_90s, Kyber1024, Kyber1024_90s };
+      enum Mode {
+         Kyber512_Round3,
+         Kyber768_Round3,
+         Kyber1024_Round3,
+
+         Kyber512 BOTAN_DEPRECATED("Use Kyber512_Round3") = Kyber512_Round3,
+         Kyber768 BOTAN_DEPRECATED("Use Kyber768_Round3") = Kyber768_Round3,
+         Kyber1024 BOTAN_DEPRECATED("Use Kyber1024_Round3") = Kyber1024_Round3,
+
+         Kyber512_90s BOTAN_DEPRECATED("Kyber 90s mode is deprecated"),
+         Kyber768_90s BOTAN_DEPRECATED("Kyber 90s mode is deprecated"),
+         Kyber1024_90s BOTAN_DEPRECATED("Kyber 90s mode is deprecated"),
+      };
 
       KyberMode(Mode mode);
       explicit KyberMode(const OID& oid);
